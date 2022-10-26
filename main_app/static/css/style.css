@@ -1,0 +1,10 @@
+.completed {
+    background-color: rgb(195, 195, 195);
+    color: rgb(91, 91, 91)
+}
+
+.complete-or-delete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

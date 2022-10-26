@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Dono List</h1>
+    {% if donations.count %}
+    {%for dono in donations %}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{dono}}</span>
+                <p>
+                {% if dono.amount == '05' %}
+                    put {{dono.donator}}'s name on a pumpkin!
+                {% elif dono.amount == '10' %}
+                    open a TCG pack!
+                {% elif dono.amount == '20' %}
+                    draw {{dono.pokemon}} from memory!
+                {% elif dono.amount == '50' %}
+                draw {{dono.pokemon}} from memory <b>WHILE BLINDFOLDED</b>!
+                {%endif%}
+                </p>
+            </div>
+            <div class="card-action">
+                <div class="complete-or-delete">
+                <form action="{% url 'dono_complete' dono.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">complete</button>
+                </form>
+                <a class="btn-small red lighten-2" href="{% url 'dono_delete' dono.id %}">delete</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+    <h4>all donations complete! 🥳</h4>
+    {%endif%}
+    <h2>Completed:</h2>
+    {%for dono in completed %}
+    <div class="card">
+        <div class="completed">
+        <div class="card-content">
+            <span class="card-title">(COMPLETED) {{dono}}</span>
+            <p>
+            {% if dono.amount == '05' %}
+                put {{dono.donator}}'s name on a pumpkin!
+            {% elif dono.amount == '10' %}
+                open a TCG pack!
+            {% elif dono.amount == '20' %}
+                draw {{dono.pokemon}} from memory!
+            {% elif dono.amount == '50' %}
+            draw {{dono.pokemon}} from memory <b>WHILE BLINDFOLDED</b>!
+            {%endif%}
+            </p>
+        </div>
+        <div class="card-action">
+            <div class="complete-or-delete">
+            <form action="{% url 'dono_uncomplete' dono.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn">undo complete</button>
+            </form>
+            <a class="btn-small red lighten-3" href="{% url 'dono_delete' dono.id %}">delete</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
